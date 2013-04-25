@@ -1,5 +1,5 @@
 " Load pathogen
-call pathogen#infect('plugins')
+call pathogen#infect('plugins/{}')
 filetype plugin indent on
 
 set autoindent
@@ -32,6 +32,6 @@ set history=100
 
 " Turn on NERDTree by default if no files are specified and close VIM if NERDTree is the only window
 " left open.
-#autocmd vimenter * NERDTree
+" autocmd vimenter * NERDTree
 autocmd vimenter * if !argc() | NERDTree | endif
 autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTreeType") && b:NERDTreeType == "primary") | q | endif
