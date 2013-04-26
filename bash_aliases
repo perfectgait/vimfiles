@@ -13,8 +13,8 @@ alias la='ls -A'
 alias l='ls -CF'
 
 #git
-alias gitstat='git status'
-alias gitsub='git submodule update --init --recursive'
+alias gst='git status'
+alias gsub='git submodule update --init --recursive'
 
 #misc
 alias reload='. ~/.bashrc'

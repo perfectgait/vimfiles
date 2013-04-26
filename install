@@ -8,12 +8,22 @@
 
 dir=~/dotfiles           # dotfiles directory
 olddir=~/dotfiles_old    # old dotfiles backup directory
-files="bashrc vimrc vim" # list of files/folders to symlink in homedir
+files="bashrc bash_aliases vimrc vim" # list of files/folders to symlink in homedir
 :
 ##########
 
+# clear the terminal
+printf "\ec"
+
 # install the git submodule so I have my vim plugins
 git submodule update --init --recursive
+
+# remove dotfiles_old in homedir
+if [ -d "$olddir" ]; then
+    echo "Removing existing $olddir in ~"
+    rm -rf $olddir
+    echo "...done"
+fi
 
 # create dotfiles_old in homedir
 echo "Creating $olddir for backup of any existing dotfiles in ~"
@@ -27,8 +37,18 @@ echo "...done"
 
 # move any existing dotfiles in homedir to dotfiles_old directory, then create symlinks 
 for file in $files; do
-    echo "Moving any existing dotfiles from ~ to $olddir"
-    mv ~/.$file ~/dotfiles_old/
-    echo "Creating symlink to $file in home directory."
+    if ! [ -L ~/.$file ]; then
+        echo "Moving ~/.$file to $olddir/.$file"
+        mv ~/.$file ~/dotfiles_old/
+    else
+        echo "Removing existing ~/.$file"
+        rm ~/.$file
+    fi
+
+    echo "Creating symlink to $file in ~"
     ln -s $dir/$file ~/.$file
 done
+
+# reload bashrc so everything takes effect
+echo "Reloading .bashrc"
+source ~/.bashrc
