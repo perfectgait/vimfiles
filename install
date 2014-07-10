@@ -6,9 +6,9 @@
 
 ########## Variables
 
-dir=~/dotfiles           # dotfiles directory
-olddir=~/dotfiles_old    # old dotfiles backup directory
-files="bashrc bash_aliases vimrc vim" # list of files/folders to symlink in homedir
+dir=$(pwd)           # dotfiles directory
+olddir=~/Dotfiles_old    # old dotfiles backup directory
+files="bashrc bash_aliases vimrc vim git-completion.bash" # list of files/folders to symlink in homedir
 :
 ##########
 
@@ -20,33 +20,30 @@ git submodule update --init --recursive
 
 # remove dotfiles_old in homedir
 if [ -d "$olddir" ]; then
-    echo "Removing existing $olddir in ~"
+    echo "Removing ~$olddir"
     rm -rf $olddir
-    echo "...done"
 fi
 
 # create dotfiles_old in homedir
-echo "Creating $olddir for backup of any existing dotfiles in ~"
+echo "Creating ~$olddir for backup of any existing dotfiles"
 mkdir -p $olddir
-echo "...done"
 
 # change to the dotfiles directory
-echo "Changing to the $dir directory"
+echo "Changing to $dir"
 cd $dir
-echo "...done"
 
-# move any existing dotfiles in homedir to dotfiles_old directory, then create symlinks 
+# move any existing dotfiles in homedir to Dotfiles_old directory, then copy files
 for file in $files; do
-    if ! [ -L ~/.$file ]; then
+    if ! [ -L ~/.$file ] && [ -e ~/.$file ]; then
         echo "Moving ~/.$file to $olddir/.$file"
-        mv ~/.$file ~/dotfiles_old/
-    else
-        echo "Removing existing ~/.$file"
-        rm ~/.$file
+        mv ~/.$file $olddir
+#    else
+#        echo "Removing existing ~/.$file"
+#        rm ~/.$file
     fi
 
-    echo "Creating symlink to $file in ~"
-    ln -s $dir/$file ~/.$file
+    echo "Copying $dir/$file to ~/$file"
+    cp -R $dir/$file ~/.$file
 done
 
 # reload bashrc so everything takes effect

@@ -81,6 +81,3 @@ fi
 if [ -f ~/.git-completion.bash ]; then
     . ~/.git-completion.bash
 fi
-
-# Add RVM to PATH for scripting
-PATH=$PATH:$HOME/.rvm/bin:
