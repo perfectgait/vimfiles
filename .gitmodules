@@ -1,6 +1,0 @@
-[submodule "vim/plugins/nerdtree"]
-	path = vim/plugins/nerdtree
-	url = https://github.com/scrooloose/nerdtree.git
-[submodule "vim/plugins/delimitMate"]
-	path = vim/plugins/delimitMate
-	url = https://github.com/Raimondi/delimitMate.git
